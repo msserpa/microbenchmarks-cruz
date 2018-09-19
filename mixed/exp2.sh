@@ -16,11 +16,10 @@ unset -v GOMP_CPU_AFFINITY
 unset -v OMP_NUM_THREADS
 unset -v OMP_SCHEDULE
 
-#ncores=`cat /proc/cpuinfo | grep processor | wc -l`
-ncores=40
+ncores=`cat /proc/cpuinfo | grep processor | wc -l`
 lastcore=$(($ncores - 1))
 
-export OMP_NUM_THREADS=ncores
+export OMP_NUM_THREADS=$ncores
 
 aff_share=""
 for core in `seq 0 $lastcore`; do
