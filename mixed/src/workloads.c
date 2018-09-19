@@ -85,7 +85,7 @@ void workload_pointer_chasing_init_buffer (thread_data_t *t, uint32_t buffer_siz
         nels = 1;
     
     t->list = NULL;
-    assert(posix_memalign(&t->list, CACHE_LINE_SIZE, nels*sizeof(list_el_t)) == 0);
+    assert(posix_memalign((void **)&t->list, CACHE_LINE_SIZE, nels*sizeof(list_el_t)) == 0);
     assert(t->list != NULL);
     
     // create circular list
@@ -125,10 +125,10 @@ void workload_pointer_chasing (thread_data_t *t)
 
 void workload_vsum_init_buffer (thread_data_t *t)
 {
-    uint32_t i, nels;
+    uint32_t i;
 
 	t->buffer = NULL;
-	assert(posix_memalign(&t->buffer, CACHE_LINE_SIZE, STEP*sizeof(uint64_t)) == 0);
+	assert(posix_memalign((void **) &t->buffer, CACHE_LINE_SIZE, STEP*sizeof(uint64_t)) == 0);
 	assert(t->buffer != NULL);
 
 

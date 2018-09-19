@@ -1,6 +1,6 @@
 CC=gcc
 CPP=g++
-CFLAGS=-O2 -funroll-loops
+CFLAGS=-O2 -funroll-loops -Wall -Wextra
 LDFLAGS=
 SRCDIR=src/
 #CFLAGS += -fopenmp

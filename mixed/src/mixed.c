@@ -42,7 +42,7 @@ void libmapping_set_aff_thread (pid_t pid, uint32_t cpu)
     errno = 0;
     ret = sched_setaffinity(pid, sizeof(mask), &mask);
     if (errno != 0) {
-        printf("libmapping error, cannot bind to CPU %u\n", cpu);
+        printf("libmapping error, cannot bind to CPU %u - ret:%d\n", cpu, ret);
         switch (errno) {
             case EFAULT:
                 printf("error: EFAULT\n");
@@ -98,7 +98,7 @@ static void parse_affinity (char *str)
 	int *vec;
 	
 	p = str;
-	int n = 1;
+	uint32_t n = 1;
 	for (p=str; *p; p++)
 		n += (*p == ',');
 	
@@ -132,7 +132,7 @@ static void parse_type_vector (char *str)
 	workload_t *vec;
 	
 	p = str;
-	int n = 1;
+	uint32_t n = 1;
 	for (p=str; *p; p++)
 		n += (*p == ',');
 	
@@ -209,6 +209,8 @@ static void* pthreads_callback (void *data)
 			printf("wrong type %i\n", t->type);
 			exit(1);
 	}
+
+	pthread_exit(NULL);
 }
 
 static void* time_monitor ()
@@ -225,8 +227,8 @@ static void* time_monitor ()
 int main (int argc, char **argv)
 {
 	pthread_t *ts;
-	uint64_t total_loops[N_WORKLOADS], max_total_loops;
-	int i;
+	unsigned long long int total_loops[N_WORKLOADS], max_total_loops;
+	uint32_t i;
 
 	if(getenv("OMP_NUM_THREADS"))
 		nt = atoi(getenv("OMP_NUM_THREADS"));
@@ -256,7 +258,7 @@ int main (int argc, char **argv)
 		exit(-1);
 	}
 
-	for(int i=0; i<nt; i++)
+	for(uint32_t i=0; i<nt; i++)
 	{
 		if(threads[i].type == WORKLOAD_POINTER_CHASING)
 			workload_pointer_chasing_init_buffer(threads+i, 1024);
@@ -266,12 +268,12 @@ int main (int argc, char **argv)
 	}
 	printf("\n");
 
-	for(int i=0; i<nt; i++)
+	for(uint32_t i=0; i<nt; i++)
 		pthread_create(&ts[i], NULL, pthreads_callback, &threads[i]);
 
 	pthread_create(&ts[nt], NULL, time_monitor, NULL);
 
-	for(int i=0; i<nt; i++)
+	for(uint32_t i=0; i<nt; i++)
 		pthread_join(ts[i], NULL);
 	
 	pthread_join(ts[nt], NULL);
@@ -287,9 +289,14 @@ int main (int argc, char **argv)
 		max_total_loops += threads[i].nloops;
 	}
 	for (i=0; i<N_WORKLOADS; i++)
-		printf("Total loops %s: %llu\n", workload_str_table[i], total_loops[i]);
+		if(total_loops[i] != 0)
+			printf("Total loops %s: %llu\n", workload_str_table[i], total_loops[i]);
 	
-	printf("Max total loops: %llu\n", max_total_loops);
-	
+	printf("Max total loops: %llu\n", max_total_loops);	
+
+	 for (i=0; i<N_WORKLOADS; i++)
+	 	fprintf(stderr, "%llu\n", total_loops[i]);
+	fprintf(stderr, "%llu\n", max_total_loops);
+
 	return 0;
 }
