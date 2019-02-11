@@ -37,10 +37,131 @@ aff=${aff::-1}
 echo $aff
 
 
+#F_
+
+#FF
+export GOMP_CPU_AFFINITY=$aff_share
+for step in `seq 1 2`; do
+	./mixed f,f 2 2> tmp
+	
+	F=`sed -n 4p tmp` | awk {'print $1 / 2'}
+	LOOP=`sed -n 5p tmp`
+	echo "share,FF,F,$F" >> $OUTPUT
+	echo "share,FF,loops,$LOOP" >> $OUTPUT
+done
+
+export GOMP_CPU_AFFINITY=$aff
+for step in `seq 1 2`; do
+	./mixed f,f 2 2> tmp
+	
+	F=`sed -n 4p tmp` | awk {'print $1 / 2'}
+	LOOP=`sed -n 5p tmp`
+	echo "no,FF,F,$F" >> $OUTPUT
+	echo "no,FF,loops,$LOOP" >> $OUTPUT
+done
+
+#FH
+export GOMP_CPU_AFFINITY=$aff_share
+for step in `seq 1 2`; do
+	./mixed h,f 2 2> tmp
+	
+	H=`sed -n 1p tmp`
+	F=`sed -n 4p tmp`
+	LOOP=`sed -n 5p tmp`
+	echo "share,FH,H,$H" >> $OUTPUT
+	echo "share,FH,F,$F" >> $OUTPUT
+	echo "share,FH,loops,$LOOP" >> $OUTPUT
+done
+
+export GOMP_CPU_AFFINITY=$aff
+for step in `seq 1 2`; do
+	./mixed h,f 2 2> tmp
+	
+	H=`sed -n 1p tmp`
+	F=`sed -n 4p tmp`
+	LOOP=`sed -n 5p tmp`
+	echo "no,FH,H,$H" >> $OUTPUT
+	echo "no,FH,F,$F" >> $OUTPUT
+	echo "no,FH,loops,$LOOP" >> $OUTPUT
+done
+
+#FP
+export GOMP_CPU_AFFINITY=$aff_share
+for step in `seq 1 2`; do
+	./mixed p,f 2 2> tmp
+	
+	P=`sed -n 2p tmp`
+	F=`sed -n 4p tmp`
+	LOOP=`sed -n 5p tmp`
+	echo "share,FP,P,$P" >> $OUTPUT
+	echo "share,FP,F,$F" >> $OUTPUT
+	echo "share,FP,loops,$LOOP" >> $OUTPUT
+done
+
+export GOMP_CPU_AFFINITY=$aff
+for step in `seq 1 2`; do
+	./mixed p,f 2 2> tmp
+	
+	P=`sed -n 2p tmp`
+	F=`sed -n 4p tmp`
+	LOOP=`sed -n 5p tmp`
+	echo "no,FP,P,$P" >> $OUTPUT
+	echo "no,FP,F,$F" >> $OUTPUT
+	echo "no,FP,loops,$LOOP" >> $OUTPUT
+done
+
+#FV
+export GOMP_CPU_AFFINITY=$aff_share
+for step in `seq 1 2`; do
+	./mixed v,f 2 2> tmp
+	
+	V=`sed -n 3p tmp`
+	F=`sed -n 4p tmp`
+	LOOP=`sed -n 5p tmp`
+	echo "share,FV,V,$V" >> $OUTPUT
+	echo "share,FV,F,$F" >> $OUTPUT
+	echo "share,FV,loops,$LOOP" >> $OUTPUT
+done
+
+export GOMP_CPU_AFFINITY=$aff
+for step in `seq 1 2`; do
+	./mixed v,f 2 2> tmp
+	
+	V=`sed -n 3p tmp`
+	F=`sed -n 4p tmp`
+	LOOP=`sed -n 5p tmp`
+	echo "no,FV,V,$V" >> $OUTPUT
+	echo "no,FV,F,$F" >> $OUTPUT
+	echo "no,FV,loops,$LOOP" >> $OUTPUT
+done
+
+#H_
+
+#HH
+export GOMP_CPU_AFFINITY=$aff_share
+for step in `seq 1 2`; do
+	./mixed h,p 2 2> tmp
+	
+	H=`sed -n 1p tmp` | awk {'print $1 / 2'}
+	LOOP=`sed -n 5p tmp`
+	echo "share,HH,H,$H" >> $OUTPUT
+	echo "share,HH,loops,$LOOP" >> $OUTPUT
+done
+
+export GOMP_CPU_AFFINITY=$aff
+for step in `seq 1 2`; do
+	./mixed h,p 2 2> tmp
+	
+	H=`sed -n 1p tmp` | awk {'print $1 / 2'}
+	LOOP=`sed -n 5p tmp`
+	echo "no,HH,H,$H" >> $OUTPUT
+	echo "no,HH,loops,$LOOP" >> $OUTPUT
+done
+
 #HP 
 export GOMP_CPU_AFFINITY=$aff_share
-for step in `seq 1 5`; do
-	./mixed h,p 5 2> tmp
+for step in `seq 1 2`; do
+	./mixed h,p 2 2> tmp
 	
 	H=`sed -n 1p tmp`
 	P=`sed -n 2p tmp`
@@ -51,8 +172,8 @@ for step in `seq 1 5`; do
 done
 
 export GOMP_CPU_AFFINITY=$aff
-for step in `seq 1 5`; do
-	./mixed h,p 5 2> tmp
+for step in `seq 1 2`; do
+	./mixed h,p 2 2> tmp
 	
 	H=`sed -n 1p tmp`
 	P=`sed -n 2p tmp`
@@ -64,8 +185,8 @@ done
 
 #HV
 export GOMP_CPU_AFFINITY=$aff_share
-for step in `seq 1 5`; do
-	./mixed h,v 5 2> tmp
+for step in `seq 1 2`; do
+	./mixed h,v 2 2> tmp
 	
 	H=`sed -n 1p tmp`
 	V=`sed -n 3p tmp`
@@ -76,8 +197,8 @@ for step in `seq 1 5`; do
 done
 
 export GOMP_CPU_AFFINITY=$aff
-for step in `seq 1 5`; do
-	./mixed h,v 5 2> tmp
+for step in `seq 1 2`; do
+	./mixed h,v 2 2> tmp
 	
 	H=`sed -n 1p tmp`
 	V=`sed -n 3p tmp`
@@ -87,35 +208,33 @@ for step in `seq 1 5`; do
 	echo "no,HV,loops,$LOOP" >> $OUTPUT
 done
 
-#HF
+#P_
+
+#PP
 export GOMP_CPU_AFFINITY=$aff_share
-for step in `seq 1 5`; do
-	./mixed h,f 5 2> tmp
+for step in `seq 1 2`; do
+	./mixed p,v 2 2> tmp
 	
-	H=`sed -n 1p tmp`
-	F=`sed -n 4p tmp`
+	P=`sed -n 2p tmp` | awk {'print $1 / 2'}
 	LOOP=`sed -n 5p tmp`
-	echo "share,HF,H,$H" >> $OUTPUT
-	echo "share,HF,F,$F" >> $OUTPUT
-	echo "share,HF,loops,$LOOP" >> $OUTPUT
+	echo "share,PP,P,$P" >> $OUTPUT
+	echo "share,PP,loops,$LOOP" >> $OUTPUT
 done
 
 export GOMP_CPU_AFFINITY=$aff
-for step in `seq 1 5`; do
-	./mixed h,f 5 2> tmp
+for step in `seq 1 2`; do
+	./mixed p,v 2 2> tmp
 	
-	H=`sed -n 1p tmp`
-	F=`sed -n 4p tmp`
+	P=`sed -n 2p tmp` | awk {'print $1 / 2'}
 	LOOP=`sed -n 5p tmp`
-	echo "no,HF,H,$H" >> $OUTPUT
-	echo "no,HF,F,$F" >> $OUTPUT
-	echo "no,HF,loops,$LOOP" >> $OUTPUT
+	echo "no,PP,P,$P" >> $OUTPUT
+	echo "no,PP,loops,$LOOP" >> $OUTPUT
 done
 
 #PV
 export GOMP_CPU_AFFINITY=$aff_share
-for step in `seq 1 5`; do
-	./mixed p,v 5 2> tmp
+for step in `seq 1 2`; do
+	./mixed p,v 2 2> tmp
 	
 	P=`sed -n 2p tmp`
 	V=`sed -n 3p tmp`
@@ -126,8 +245,8 @@ for step in `seq 1 5`; do
 done
 
 export GOMP_CPU_AFFINITY=$aff
-for step in `seq 1 5`; do
-	./mixed p,v 5 2> tmp
+for step in `seq 1 2`; do
+	./mixed p,v 2 2> tmp
 	
 	P=`sed -n 2p tmp`
 	V=`sed -n 3p tmp`
@@ -137,52 +256,25 @@ for step in `seq 1 5`; do
 	echo "no,PV,loops,$LOOP" >> $OUTPUT
 done
 
-#PF
+#V_
+
+#VV
 export GOMP_CPU_AFFINITY=$aff_share
-for step in `seq 1 5`; do
-	./mixed p,f 5 2> tmp
+for step in `seq 1 2`; do
+	./mixed p,v 2 2> tmp
 	
-	P=`sed -n 2p tmp`
-	F=`sed -n 4p tmp`
+	V=`sed -n 3p tmp` | awk {'print $1 / 2'}
 	LOOP=`sed -n 5p tmp`
-	echo "share,PF,P,$P" >> $OUTPUT
-	echo "share,PF,F,$F" >> $OUTPUT
-	echo "share,PF,loops,$LOOP" >> $OUTPUT
+	echo "share,VV,V,$V" >> $OUTPUT
+	echo "share,VV,loops,$LOOP" >> $OUTPUT
 done
 
 export GOMP_CPU_AFFINITY=$aff
-for step in `seq 1 5`; do
-	./mixed p,f 5 2> tmp
+for step in `seq 1 2`; do
+	./mixed p,v 2 2> tmp
 	
-	P=`sed -n 2p tmp`
-	F=`sed -n 4p tmp`
+	V=`sed -n 3p tmp` | awk {'print $1 / 2'}
 	LOOP=`sed -n 5p tmp`
-	echo "no,PF,P,$P" >> $OUTPUT
-	echo "no,PF,F,$F" >> $OUTPUT
-	echo "no,PF,loops,$LOOP" >> $OUTPUT
-done
-
-#VF
-export GOMP_CPU_AFFINITY=$aff_share
-for step in `seq 1 5`; do
-	./mixed v,f 5 2> tmp
-	
-	V=`sed -n 3p tmp`
-	F=`sed -n 4p tmp`
-	LOOP=`sed -n 5p tmp`
-	echo "share,VF,V,$V" >> $OUTPUT
-	echo "share,VF,F,$F" >> $OUTPUT
-	echo "share,VF,loops,$LOOP" >> $OUTPUT
-done
-
-export GOMP_CPU_AFFINITY=$aff
-for step in `seq 1 5`; do
-	./mixed v,f 5 2> tmp
-	
-	V=`sed -n 3p tmp`
-	F=`sed -n 4p tmp`
-	LOOP=`sed -n 5p tmp`
-	echo "no,VF,V,$V" >> $OUTPUT
-	echo "no,VF,F,$F" >> $OUTPUT
-	echo "no,VF,loops,$LOOP" >> $OUTPUT
+	echo "no,VV,V,$V" >> $OUTPUT
+	echo "no,VV,loops,$LOOP" >> $OUTPUT
 done
