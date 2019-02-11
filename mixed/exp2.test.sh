@@ -44,7 +44,7 @@ export GOMP_CPU_AFFINITY=$aff_share
 for step in `seq 1 2`; do
 	./mixed f,f 2 2> tmp
 	
-	F=`sed -n 4p tmp` | awk {'print $1 / 2'}
+	F=`sed -n 4p tmp | awk {'print $1 / 2'}` 
 	LOOP=`sed -n 5p tmp`
 	echo "share,FF,F,$F" >> $OUTPUT
 	echo "share,FF,loops,$LOOP" >> $OUTPUT
@@ -54,7 +54,7 @@ export GOMP_CPU_AFFINITY=$aff
 for step in `seq 1 2`; do
 	./mixed f,f 2 2> tmp
 	
-	F=`sed -n 4p tmp` | awk {'print $1 / 2'}
+	F=`sed -n 4p tmp | awk {'print $1 / 2'}`
 	LOOP=`sed -n 5p tmp`
 	echo "no,FF,F,$F" >> $OUTPUT
 	echo "no,FF,loops,$LOOP" >> $OUTPUT
@@ -142,7 +142,7 @@ export GOMP_CPU_AFFINITY=$aff_share
 for step in `seq 1 2`; do
 	./mixed h,p 2 2> tmp
 	
-	H=`sed -n 1p tmp` | awk {'print $1 / 2'}
+	H=`sed -n 1p tmp | awk {'print $1 / 2'}`
 	LOOP=`sed -n 5p tmp`
 	echo "share,HH,H,$H" >> $OUTPUT
 	echo "share,HH,loops,$LOOP" >> $OUTPUT
@@ -152,7 +152,7 @@ export GOMP_CPU_AFFINITY=$aff
 for step in `seq 1 2`; do
 	./mixed h,p 2 2> tmp
 	
-	H=`sed -n 1p tmp` | awk {'print $1 / 2'}
+	H=`sed -n 1p tmp | awk {'print $1 / 2'}`
 	LOOP=`sed -n 5p tmp`
 	echo "no,HH,H,$H" >> $OUTPUT
 	echo "no,HH,loops,$LOOP" >> $OUTPUT
@@ -215,7 +215,7 @@ export GOMP_CPU_AFFINITY=$aff_share
 for step in `seq 1 2`; do
 	./mixed p,v 2 2> tmp
 	
-	P=`sed -n 2p tmp` | awk {'print $1 / 2'}
+	P=`sed -n 2p tmp | awk {'print $1 / 2'}`
 	LOOP=`sed -n 5p tmp`
 	echo "share,PP,P,$P" >> $OUTPUT
 	echo "share,PP,loops,$LOOP" >> $OUTPUT
@@ -225,7 +225,7 @@ export GOMP_CPU_AFFINITY=$aff
 for step in `seq 1 2`; do
 	./mixed p,v 2 2> tmp
 	
-	P=`sed -n 2p tmp` | awk {'print $1 / 2'}
+	P=`sed -n 2p tmp | awk {'print $1 / 2'}`
 	LOOP=`sed -n 5p tmp`
 	echo "no,PP,P,$P" >> $OUTPUT
 	echo "no,PP,loops,$LOOP" >> $OUTPUT
@@ -263,7 +263,7 @@ export GOMP_CPU_AFFINITY=$aff_share
 for step in `seq 1 2`; do
 	./mixed p,v 2 2> tmp
 	
-	V=`sed -n 3p tmp` | awk {'print $1 / 2'}
+	V=`sed -n 3p tmp | awk {'print $1 / 2'}`
 	LOOP=`sed -n 5p tmp`
 	echo "share,VV,V,$V" >> $OUTPUT
 	echo "share,VV,loops,$LOOP" >> $OUTPUT
@@ -273,7 +273,7 @@ export GOMP_CPU_AFFINITY=$aff
 for step in `seq 1 2`; do
 	./mixed p,v 2 2> tmp
 	
-	V=`sed -n 3p tmp` | awk {'print $1 / 2'}
+	V=`sed -n 3p tmp | awk {'print $1 / 2'}`
 	LOOP=`sed -n 5p tmp`
 	echo "no,VV,V,$V" >> $OUTPUT
 	echo "no,VV,loops,$LOOP" >> $OUTPUT
