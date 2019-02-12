@@ -1,0 +1,7 @@
+#!/bin/sh
+#SBATCH --job-name=microbenchmark
+#SBATCH --time=72:00:00
+#SBATCH --partition=hype
+#SBATCH --exclusive
+./exp2.sh
+

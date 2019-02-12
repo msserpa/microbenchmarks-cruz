@@ -5,6 +5,10 @@ set -o errexit -o nounset -o pipefail -o posix
 HOST=`hostname`
 START=`date +"%d-%m-%Y.%Hh%Mm%Ss"`
 
+cd $SCRATCH
+
+cp /home/users/msserpa/microbenchmarks/mixed/mixed .
+
 OUTPUT=$HOST.$START.csv
 
 echo output file: $OUTPUT
@@ -278,3 +282,5 @@ for step in `seq 1 10`; do
 	echo "no,VV,V,$V" >> $OUTPUT
 	echo "no,VV,loops,$LOOP" >> $OUTPUT
 done
+
+cp $OUTPUT /home/users/msserpa/microbenchmarks/mixed/
