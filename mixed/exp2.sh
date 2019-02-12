@@ -13,7 +13,7 @@ OUTPUT=$HOST.$START.csv
 
 echo output file: $OUTPUT
 
-echo "core,workload,metric,value" > $OUTPUT
+echo "core,workload,appA,appB,value" > $OUTPUT
 
 unset -v KMP_AFFINITY
 unset -v GOMP_CPU_AFFINITY
@@ -50,8 +50,8 @@ for step in `seq 1 10`; do
 	
 	F=`sed -n 4p tmp | awk {'print $1 / 2'}` 
 	LOOP=`sed -n 5p tmp`
-	echo "share,FF,F,$F" >> $OUTPUT
-	echo "share,FF,loops,$LOOP" >> $OUTPUT
+	echo "shared,FF,Fibonacci,Fibonacci,$F" >> $OUTPUT
+	# echo "shared,FF,loops,$LOOP" >> $OUTPUT
 done
 
 export GOMP_CPU_AFFINITY=$aff
@@ -60,8 +60,8 @@ for step in `seq 1 10`; do
 	
 	F=`sed -n 4p tmp | awk {'print $1 / 2'}`
 	LOOP=`sed -n 5p tmp`
-	echo "no,FF,F,$F" >> $OUTPUT
-	echo "no,FF,loops,$LOOP" >> $OUTPUT
+	echo "private,FF,Fibonacci,Fibonacci,$F" >> $OUTPUT
+	# echo "private,FF,loops,$LOOP" >> $OUTPUT
 done
 
 #FH
@@ -72,9 +72,9 @@ for step in `seq 1 10`; do
 	H=`sed -n 1p tmp`
 	F=`sed -n 4p tmp`
 	LOOP=`sed -n 5p tmp`
-	echo "share,FH,H,$H" >> $OUTPUT
-	echo "share,FH,F,$F" >> $OUTPUT
-	echo "share,FH,loops,$LOOP" >> $OUTPUT
+	echo "shared,FH,Harmonic,Fibonacci,$H" >> $OUTPUT
+	echo "shared,FH,Fibonacci,Harmonic,$F" >> $OUTPUT
+	# echo "shared,FH,loops,$LOOP" >> $OUTPUT
 done
 
 export GOMP_CPU_AFFINITY=$aff
@@ -84,9 +84,9 @@ for step in `seq 1 10`; do
 	H=`sed -n 1p tmp`
 	F=`sed -n 4p tmp`
 	LOOP=`sed -n 5p tmp`
-	echo "no,FH,H,$H" >> $OUTPUT
-	echo "no,FH,F,$F" >> $OUTPUT
-	echo "no,FH,loops,$LOOP" >> $OUTPUT
+	echo "private,FH,Harmonic,Fibonacci,$H" >> $OUTPUT
+	echo "private,FH,Fibonacci,Harmonic,$F" >> $OUTPUT
+	# echo "private,FH,loops,$LOOP" >> $OUTPUT
 done
 
 #FP
@@ -97,9 +97,9 @@ for step in `seq 1 10`; do
 	P=`sed -n 2p tmp`
 	F=`sed -n 4p tmp`
 	LOOP=`sed -n 5p tmp`
-	echo "share,FP,P,$P" >> $OUTPUT
-	echo "share,FP,F,$F" >> $OUTPUT
-	echo "share,FP,loops,$LOOP" >> $OUTPUT
+	echo "shared,FP,Pointer,Fibonacci,$P" >> $OUTPUT
+	echo "shared,FP,Fibonacci,Pointer,$F" >> $OUTPUT
+	# echo "shared,FP,loops,$LOOP" >> $OUTPUT
 done
 
 export GOMP_CPU_AFFINITY=$aff
@@ -109,9 +109,9 @@ for step in `seq 1 10`; do
 	P=`sed -n 2p tmp`
 	F=`sed -n 4p tmp`
 	LOOP=`sed -n 5p tmp`
-	echo "no,FP,P,$P" >> $OUTPUT
-	echo "no,FP,F,$F" >> $OUTPUT
-	echo "no,FP,loops,$LOOP" >> $OUTPUT
+	echo "private,FP,Pointer,Fibonacci,$P" >> $OUTPUT
+	echo "private,FP,Fibonacci,Pointer,$F" >> $OUTPUT
+	# echo "private,FP,loops,$LOOP" >> $OUTPUT
 done
 
 #FV
@@ -122,9 +122,9 @@ for step in `seq 1 10`; do
 	V=`sed -n 3p tmp`
 	F=`sed -n 4p tmp`
 	LOOP=`sed -n 5p tmp`
-	echo "share,FV,V,$V" >> $OUTPUT
-	echo "share,FV,F,$F" >> $OUTPUT
-	echo "share,FV,loops,$LOOP" >> $OUTPUT
+	echo "shared,FV,Vsum,Fibonacci,$V" >> $OUTPUT
+	echo "shared,FV,Fibonacci,Vsum,$F" >> $OUTPUT
+	# echo "shared,FV,loops,$LOOP" >> $OUTPUT
 done
 
 export GOMP_CPU_AFFINITY=$aff
@@ -134,9 +134,9 @@ for step in `seq 1 10`; do
 	V=`sed -n 3p tmp`
 	F=`sed -n 4p tmp`
 	LOOP=`sed -n 5p tmp`
-	echo "no,FV,V,$V" >> $OUTPUT
-	echo "no,FV,F,$F" >> $OUTPUT
-	echo "no,FV,loops,$LOOP" >> $OUTPUT
+	echo "private,FV,Vsum,Fibonacci,$V" >> $OUTPUT
+	echo "private,FV,Fibonacci,Vsum,$F" >> $OUTPUT
+	# echo "private,FV,loops,$LOOP" >> $OUTPUT
 done
 
 #H_
@@ -148,8 +148,8 @@ for step in `seq 1 10`; do
 	
 	H=`sed -n 1p tmp | awk {'print $1 / 2'}`
 	LOOP=`sed -n 5p tmp`
-	echo "share,HH,H,$H" >> $OUTPUT
-	echo "share,HH,loops,$LOOP" >> $OUTPUT
+	echo "shared,HH,Harmonic,Harmonic,$H" >> $OUTPUT
+	# echo "shared,HH,loops,$LOOP" >> $OUTPUT
 done
 
 export GOMP_CPU_AFFINITY=$aff
@@ -158,8 +158,8 @@ for step in `seq 1 10`; do
 	
 	H=`sed -n 1p tmp | awk {'print $1 / 2'}`
 	LOOP=`sed -n 5p tmp`
-	echo "no,HH,H,$H" >> $OUTPUT
-	echo "no,HH,loops,$LOOP" >> $OUTPUT
+	echo "private,HH,Harmonic,Harmonic,$H" >> $OUTPUT
+	# echo "private,HH,loops,$LOOP" >> $OUTPUT
 done
 
 #HP 
@@ -170,9 +170,9 @@ for step in `seq 1 10`; do
 	H=`sed -n 1p tmp`
 	P=`sed -n 2p tmp`
 	LOOP=`sed -n 5p tmp`
-	echo "share,HP,H,$H" >> $OUTPUT
-	echo "share,HP,P,$P" >> $OUTPUT
-	echo "share,HP,loops,$LOOP" >> $OUTPUT
+	echo "shared,HP,Harmonic,Pointer,$H" >> $OUTPUT
+	echo "shared,HP,Pointer,Harmonic,$P" >> $OUTPUT
+	# echo "shared,HP,loops,$LOOP" >> $OUTPUT
 done
 
 export GOMP_CPU_AFFINITY=$aff
@@ -182,9 +182,9 @@ for step in `seq 1 10`; do
 	H=`sed -n 1p tmp`
 	P=`sed -n 2p tmp`
 	LOOP=`sed -n 5p tmp`
-	echo "no,HP,H,$H" >> $OUTPUT
-	echo "no,HP,P,$P" >> $OUTPUT
-	echo "no,HP,loops,$LOOP" >> $OUTPUT
+	echo "private,HP,Harmonic,Pointer,$H" >> $OUTPUT
+	echo "private,HP,Pointer,Harmonic,$P" >> $OUTPUT
+	# echo "private,HP,loops,$LOOP" >> $OUTPUT
 done
 
 #HV
@@ -195,9 +195,9 @@ for step in `seq 1 10`; do
 	H=`sed -n 1p tmp`
 	V=`sed -n 3p tmp`
 	LOOP=`sed -n 5p tmp`
-	echo "share,HV,H,$H" >> $OUTPUT
-	echo "share,HV,V,$V" >> $OUTPUT
-	echo "share,HV,loops,$LOOP" >> $OUTPUT
+	echo "shared,HV,Harmonic,Vsum,$H" >> $OUTPUT
+	echo "shared,HV,Vsum,Harmonic,$V" >> $OUTPUT
+	# echo "shared,HV,loops,$LOOP" >> $OUTPUT
 done
 
 export GOMP_CPU_AFFINITY=$aff
@@ -207,9 +207,9 @@ for step in `seq 1 10`; do
 	H=`sed -n 1p tmp`
 	V=`sed -n 3p tmp`
 	LOOP=`sed -n 5p tmp`
-	echo "no,HV,H,$H" >> $OUTPUT
-	echo "no,HV,V,$V" >> $OUTPUT
-	echo "no,HV,loops,$LOOP" >> $OUTPUT
+	echo "private,HV,Harmonic,Vsum,$H" >> $OUTPUT
+	echo "private,HV,Vsum,Harmonic,$V" >> $OUTPUT
+	# echo "private,HV,loops,$LOOP" >> $OUTPUT
 done
 
 #P_
@@ -221,8 +221,8 @@ for step in `seq 1 10`; do
 	
 	P=`sed -n 2p tmp | awk {'print $1 / 2'}`
 	LOOP=`sed -n 5p tmp`
-	echo "share,PP,P,$P" >> $OUTPUT
-	echo "share,PP,loops,$LOOP" >> $OUTPUT
+	echo "shared,PP,Pointer,Pointer,$P" >> $OUTPUT
+	# echo "shared,PP,loops,$LOOP" >> $OUTPUT
 done
 
 export GOMP_CPU_AFFINITY=$aff
@@ -231,8 +231,8 @@ for step in `seq 1 10`; do
 	
 	P=`sed -n 2p tmp | awk {'print $1 / 2'}`
 	LOOP=`sed -n 5p tmp`
-	echo "no,PP,P,$P" >> $OUTPUT
-	echo "no,PP,loops,$LOOP" >> $OUTPUT
+	echo "private,PP,Pointer,Pointer,$P" >> $OUTPUT
+	# echo "private,PP,loops,$LOOP" >> $OUTPUT
 done
 
 #PV
@@ -243,9 +243,9 @@ for step in `seq 1 10`; do
 	P=`sed -n 2p tmp`
 	V=`sed -n 3p tmp`
 	LOOP=`sed -n 5p tmp`
-	echo "share,PV,P,$P" >> $OUTPUT
-	echo "share,PV,V,$V" >> $OUTPUT
-	echo "share,PV,loops,$LOOP" >> $OUTPUT
+	echo "shared,PV,Pointer,Vsum,$P" >> $OUTPUT
+	echo "shared,PV,Vsum,Pointer,$V" >> $OUTPUT
+	# echo "shared,PV,loops,$LOOP" >> $OUTPUT
 done
 
 export GOMP_CPU_AFFINITY=$aff
@@ -255,9 +255,9 @@ for step in `seq 1 10`; do
 	P=`sed -n 2p tmp`
 	V=`sed -n 3p tmp`
 	LOOP=`sed -n 5p tmp`
-	echo "no,PV,P,$P" >> $OUTPUT
-	echo "no,PV,V,$V" >> $OUTPUT
-	echo "no,PV,loops,$LOOP" >> $OUTPUT
+	echo "private,PV,Pointer,Vsum,$P" >> $OUTPUT
+	echo "private,PV,Vsum,Pointer,$V" >> $OUTPUT
+	# echo "private,PV,loops,$LOOP" >> $OUTPUT
 done
 
 #V_
@@ -269,8 +269,8 @@ for step in `seq 1 10`; do
 	
 	V=`sed -n 3p tmp | awk {'print $1 / 2'}`
 	LOOP=`sed -n 5p tmp`
-	echo "share,VV,V,$V" >> $OUTPUT
-	echo "share,VV,loops,$LOOP" >> $OUTPUT
+	echo "shared,VV,Vsum,Vsum,$V" >> $OUTPUT
+	# echo "shared,VV,loops,$LOOP" >> $OUTPUT
 done
 
 export GOMP_CPU_AFFINITY=$aff
@@ -279,8 +279,8 @@ for step in `seq 1 10`; do
 	
 	V=`sed -n 3p tmp | awk {'print $1 / 2'}`
 	LOOP=`sed -n 5p tmp`
-	echo "no,VV,V,$V" >> $OUTPUT
-	echo "no,VV,loops,$LOOP" >> $OUTPUT
+	echo "private,VV,Vsum,Vsum,$V" >> $OUTPUT
+	# echo "private,VV,loops,$LOOP" >> $OUTPUT
 done
 
 cp $OUTPUT /home/users/msserpa/microbenchmarks/mixed/
